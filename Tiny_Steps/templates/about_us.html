@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .row {
+        margin-top: 10px;
+    }
+
+    .box-content {
+        padding-left: 20px;
+        padding-top: 50px;
+        background-color: rgba(62, 69, 81, 0.2);
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        text-justify: inter-word;
+    }
+
+    .box-content p {
+        font-size: 20px;
+        text-align: justify;
+        margin: 30px;
+    }
+
+    footer {
+        margin-top: 20px;
+    }
+</style>
+
+<title>About Us</title>
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='background-images/varanasi_aboutus.jpg') }}" width="100%">
+        </div>
+        <div class="col-md-6">
+            <div class="box-content">
+                <h2>About Us</h2>
+                <p>
+                    Travel broadens the mind as we all know it. 
+                    So are you planning for a long vacation to overcome the boredom of your daily life? 
+                    Do you want a break from your hectic schedule? 
+                    Here we, Tiny Steps offer you the best deals and packages for the vacations. 
+                    If you want to go out with your family then we are offering some exclusive offers which will cater 
+                    to your desires well. For solo travelers, we are serving them with an attractive package of spiritual tours.
+                </p>
+                <p>
+                    With 7 years of experience and our skilled travel executives, we are the best travel company in Kolkata.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

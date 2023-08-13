@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .row {
+        margin-top: 10px;
+    }
+
+    .form-control {
+        width: 50%;
+    }
+
+    .box-content {
+        padding-left: 20px;
+        padding-top: 50px;
+        background-color: rgba(62, 69, 81, 0.2);
+        height: 100%;
+        width: 100%;
+    }
+
+    .form-items {
+        padding-bottom: 10px;
+    }
+
+    footer {
+        margin-top: 20px;
+    }
+</style>
+
+<title>Log In</title>
+{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for cat, msg in messages %}
+            {% if cat == 'success' %}
+                <div class="alert alert-success" role="alert">
+                    <p>{{ msg }}</p>
+                </div>
+            {% endif %}
+            {% if cat == 'error' %}
+                <div class="alert alert-danger" role="alert">
+                    <p>{{ msg }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<section>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ url_for('static', filename='background-images/horses_login.jpg') }}" width="100%">
+        </div>
+        <div class="col-md-6">
+            <div class="box-content">
+                <h2>Sign In</h2>
+                <form action="{{ url_for('auth.login') }}" method="post">
+                    <div class="form-items">
+                        <span><b>Email</b></span>
+                        <input class="form-control" type="email" name="email" required>
+                    </div>
+                    <div class="form-items">
+                        <span><b>Password</b></span>
+                        <input class="form-control" type="password" name="password" required>
+                    </div>
+                    <div class="form-items">
+                        <label><input type="checkbox" name="remember"><b> Remember me</b></label>
+                    </div>
+                    <div class="form-items">
+                        <a href="#"><button class="btn" type="submit">Sign in</button></a>
+                    </div>
+                    <div class="form-items">
+                        <b>Don't have an account?</b><a href="{{ url_for('auth.signup') }}"><b> Sign up</b></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

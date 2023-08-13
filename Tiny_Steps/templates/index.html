@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    section {
+        margin-top: 30px;
+        display: flex;
+    }
+
+    #thumbnail {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .post img {
+		width: 100%;
+		height: 250px;
+	}
+
+    .centered-section{
+        margin-left: 50px;
+        text-align: center;
+    }
+
+    .partners p{
+        margin: 20px 50px;
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    footer {
+        margin-top: 100px;
+    }
+</style>
+
+<title>Wanna go on a trip</title>
+{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for cat, msg in messages %}
+            {% if cat == 'success' %}
+                <div class="alert alert-success" role="alert">
+                    <p>{{ msg }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<section>
+    <div class="row">
+        <div class="col" style="margin-top: 150px;">
+            <p class="bold" style="font-size: 48px;">Its Time For New Adventures, Escapes thrills & experiences</p>
+        </div>
+
+        <div class="col">
+            <img src="{{ url_for('static', filename='background-images/young-woman-vacation-by-pool.jpg') }}" alt="" width="800px">
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="row">
+        <div class="col" style="margin-top: 80px;">
+            <p class="bold">Find The Perfect Place</p>
+            
+            <p class="small" style="font-weight: 500;">A list of the top 75 Best Tourist Places to See in India for a perfect holiday or a trip.</p>
+            
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('main.adventure') }}"><button class="btn">View More</button></a>
+            {% else %}
+                <a href="{{ url_for('auth.signup') }}"><button class="btn">View More</button></a>
+            {% endif %}
+        </div>
+
+        <div class="col-2 card" id="thumbnail">
+            <img src="https://we-worldwide-arhxo0vh6d1oh9i0c.stackpathdns.com/media/449810/delhi-og-1200x630.jpg" alt="" height="250px" width="200px">
+            <div class="card-body">
+                <p class="card-text">Delhi</p>
+            </div>
+        </div>
+
+        <div class="col-2 card" id="thumbnail">
+            <img src="https://assets.cntraveller.in/photos/618cf9bacb71571d901e7b55/16:9/w_1024%2Cc_limit/Vivanta%2520Dal%2520View%2520Sri%2520Nagar%25205.jpeg" alt="" height="250px" width="200px">
+            <div class="card-body">
+                <p class="card-text">Jammu & Kashmir</p>
+            </div>
+        </div>
+
+        <div class="col-2 card" id="thumbnail">
+            <img src="https://images.hindustantimes.com/img/2021/12/28/1600x900/8606d7ba-67bd-11ec-8650-baa05d62cfe0_1640684458053.jpg" alt="" height="250px" width="200px">
+            <div class="card-body">
+                <p class="card-text">Goa</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="centered-section">
+        <p class="bold">Top rated Experiences on Travel</p>
+        
+        <div class="row">
+            {% for blog in blogs %}
+            <div class="col-3">
+                <div class="post" id="thumbnail">
+                    <a href="{{ url_for('main.blogpost', id=blog.id) }}">
+                        <img src="/static/posts/{{ blog.pic_name }}" alt="">
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="centered-section">
+        <p class="bold">Our Partners</p>
+
+        <div class="partners">
+            <div class="row">    
+                <div class="col-3">
+                    <p>Arpita Roy</p>
+                </div>
+
+                <div class="col-3">
+                    <p>Nalanagula Swetha</p>
+                </div>
+
+                <div class="col-3">
+                    <p>Baidyanath Kumar</p>
+                </div>
+
+                <div class="col-3">
+                    <p>Sagnik Basu</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

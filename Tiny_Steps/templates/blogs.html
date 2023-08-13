@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+	.jumbotron {
+		width: 100%;
+		height: 700px;
+		text-align: center;
+		background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://www.lumiereholidays.com/designs/package_images/lmr_650_450.jpg');
+		border-radius: 20px;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+
+	.jumbo-content {
+		color: white;
+		margin: 250px;
+	}
+
+    section {
+        margin-top: 20px;
+        display: flex;
+    }
+
+	.form-label {
+		text-transform: uppercase;
+		font-weight: 700;
+		font-size: 20px;
+	}
+
+	#blog-content {
+		border: 2px double green;
+	}
+
+	#blog-post {
+		border: 2px double green;
+		background-color: rgba(0, 255, 0, 0.5)
+	}
+
+	.post img {
+		width: 100%;
+		height: 250px;
+	}
+
+	.post p {
+		width: 250px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.small {
+		font-size: 12px;
+	}
+
+    #thumbnail {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+
+    .centered-section{
+        margin-left: 50px;
+        text-align: center;
+    }
+
+    footer {
+        margin-top: 20px;
+    }
+
+	.col-4 p{
+		font-size: 15px;
+	}
+</style>
+
+<title>Blog Page</title>
+{% endblock %}
+
+{% block content %}
+<section>
+	<div class="jumbotron">
+		<div class="jumbo-content">
+			<h1>Where will you go next?</h1>
+			<p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed et donec purus viverra. Sit justo velit, eu sed sollicitudin tempus, risus. Sed sit elit mauris adipiscing. Lobortis pellentesque nulla accumsan id urna, ullamcorper gravida varius. Massa mauris, cursus orci magna non enim fames et sed. </p>
+			<p class="bold" style="color: #FFA902;">Let's Go.....</p>
+		</div>
+	</div>
+</section>
+
+{% if current_user.is_authenticated %}
+	<section>
+		<div class="row">
+			<div class="col" style="margin-top: 100px;">
+				<p class="bold">Wanna share your experiences with everyone?</p>
+			</div>
+
+			<div class="col">
+				<form action="{{ url_for('main.blogs') }}" method="post" enctype="multipart/form-data">
+					<div class="mb-3">
+						<label for="blog-content" class="form-label">How do you feel</label>
+						<input type="text" id="blog-content" name="title" placeholder="Give a title" style="margin-left: 10px;">
+						<textarea class="form-control" name="content" id="blog-content" cols="40" rows="10"></textarea>
+					</div>
+		
+					<div class="row mb-3">
+						<input type="file" name="pic" id="">
+					</div>
+		
+					<div class="row mb-3">
+						<input id="blog-post" type="submit" value="Share It">
+					</div>				
+				</form>
+			</div>
+		</div>
+	</section>
+{% endif %}
+
+<section>
+	<div class="centered-section">
+		<p class="bold">Featured Explore</p>
+
+		<div class="row">
+			{% for blog in blogs.items %}
+				<div class="col-4">
+					<div class="post" id="thumbnail">
+						<a href="{{ url_for('main.blogpost', id=blog.id) }}">
+							<img src="/static/posts/{{ blog.pic_name }}" alt="">
+						</a>
+						<p>{{ blog.title }}</p>
+						<p>{{ blog.content }}</p>
+						<p>{{ blog.tourist.name }}</p>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+		<ul class="pagination" style="margin-left: 50%;">
+			{% for page_num in blogs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+				{% if page_num %}
+					{% if blogs.page == page_num %}
+						<li class="page-item active" aria-current="page">
+							<a href="{{ url_for('main.blogs', page=page_num) }}" class="page-link">{{ page_num }}</a>
+						</li>
+					{% else %}
+						<li class="page-item">
+							<a href="{{ url_for('main.blogs', page=page_num) }}" class="page-link">{{ page_num }}</a>
+						</li>
+					{% endif %}
+				{% else %}
+					...
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+</section>
+{% endblock %}
+      

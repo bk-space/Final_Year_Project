@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .jumbotron {
+        margin: 10px;
+        text-align: center;
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://thumbs.dreamstime.com/b/travel-trip-vacation-tourism-mockup-tools-close-up-compass-glass-water-note-pad-pen-toy-airplane-touristic-map-59549959.jpg');
+        border-radius: 20px;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .jumbo-content tr{
+        color: white;
+    }
+
+    #choose-vehicle img {
+        width: 80px;
+        height: 80px;
+        margin: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section>
+    <span id="choose-vehicle">
+        <a href="{{ url_for('main.adventure', transport='Ship') }}">
+            <img src="{{ url_for('static', filename='icons/ship-icon.jpg') }}" alt="">
+        </a>
+
+        <a href="{{ url_for('main.adventure', transport='Plane') }}">
+            <img src="{{ url_for('static', filename='icons/plane-icon.jpg') }}" alt="">
+        </a>
+
+        <a href="{{ url_for('main.adventure', transport='Train') }}">
+            <img src="{{ url_for('static', filename='icons/train-icon.jpg') }}" alt="">
+        </a>
+    </span>
+</section>
+
+<section>
+    <div class="jumbotron">
+        <div class="jumbo-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Vehicle</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+                {% for plan in plans.items %}
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ plan.id }}</th>
+                        <td>{{ plan.transport }}</td>
+                        <td>{{ plan.destination }}</td>
+                        <td><button class="btn">Book now</button></td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <ul class="pagination" style="margin-left: 50%;">
+        {% for page_num in plans.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if plans.page == page_num %}
+                    <li class="page-item active" aria-current="page">
+                        <a href="{{ url_for('main.adventure', page=page_num) }}" class="page-link">{{ page_num }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="{{ url_for('main.adventure', page=page_num) }}" class="page-link">{{ page_num }}</a>
+                    </li>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="https://js.stripe.com/v3/"></script>
+
+<script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+{% endblock %}
